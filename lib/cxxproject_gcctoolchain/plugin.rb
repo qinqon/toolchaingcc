@@ -4,12 +4,13 @@ cxx_plugin do |cxx,bbs,log|
   require 'errorparser/gcc_linker_error_parser'
   gccCompilerErrorParser = Cxxproject::GCCCompilerErrorParser.new
 
+  prefix = ENV['USE_CCACHE'] ? 'ccache' : nil
   toolchain "gcc",
     :COMPILER =>
       {
         :CPP =>
           {
-            :COMMAND => "g++",
+            :COMMAND => ([] << prefix << "g++").compact,
             :DEFINE_FLAG => "-D",
             :OBJECT_FILE_FLAG => "-o",
             :INCLUDE_PATH_FLAG => "-I",
@@ -23,7 +24,7 @@ cxx_plugin do |cxx,bbs,log|
           {
             :BASED_ON => :CPP,
             :SOURCE_FILE_ENDINGS => [".c"],
-            :COMMAND => "gcc"
+            :COMMAND => ([] << prefix << "gcc").compact
           },
         :ASM =>
           {
