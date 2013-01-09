@@ -42,7 +42,9 @@ cxx_plugin do |cxx,bbs,log|
         :LIB_PATH_FLAG => "-L",
         :ERROR_PARSER => Cxxproject::GCCLinkerErrorParser.new,
         :START_OF_WHOLE_ARCHIVE => '-Wl,--whole-archive',
-        :END_OF_WHOLE_ARCHIVE => '-Wl,--no-whole-archive'
+        :END_OF_WHOLE_ARCHIVE => '-Wl,--no-whole-archive',
+        :START_OF_WHOLE_ARCHIVE_FOR_OSX => '-force_load',
+        :END_OF_WHOLE_ARCHIVE_FOR_OSX => ''
       },
     :ARCHIVER =>
       {
