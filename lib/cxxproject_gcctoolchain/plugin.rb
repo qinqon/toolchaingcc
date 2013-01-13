@@ -1,3 +1,15 @@
+class OsxSharedLibs
+  def calc(linker, bb)
+    return ['-install_name', File.join(additional_path_components() + bb.get_output_name(linker))]
+  end
+end
+
+class UnixSharedLibs
+  def calc(linker, bb)
+    return ["-Wl,-soname,#{bb.get_output_name(linker)}"]
+  end
+end
+
 cxx_plugin do |cxx,bbs,log|
 
   require 'errorparser/gcc_compiler_error_parser'
@@ -37,12 +49,16 @@ cxx_plugin do |cxx,bbs,log|
         :COMMAND => "g++",
         :SCRIPT => "-T",
         :USER_LIB_FLAG => "-l:",
-        :EXE_FLAG => "-o",
+        :EXE_FLAG => '-o',
+        :SHARED_FLAG => '-shared',
         :LIB_FLAG => "-l",
         :LIB_PATH_FLAG => "-L",
         :ERROR_PARSER => Cxxproject::GCCLinkerErrorParser.new,
         :START_OF_WHOLE_ARCHIVE => {:UNIX => '-Wl,--whole-archive', :OSX => '-force_load', :WINDOWS => '-Wl,--whole-archive'},
-        :END_OF_WHOLE_ARCHIVE => {:UNIX => '-Wl,--no-whole-archive', :OSX => '', :WINDOWS => '-Wl,--no-whole-archive'}
+        :END_OF_WHOLE_ARCHIVE => {:UNIX => '-Wl,--no-whole-archive', :OSX => '', :WINDOWS => '-Wl,--no-whole-archive'},
+        :ADDITIONAL_COMMANDS => {:OSX => OsxSharedLibs.new, :UNIX => UnixSharedLibs.new},
+        :OUTPUT_PREFIX => {:EXE => '', :SHARED_LIBRARY => {:UNIX => 'lib', :OSX => 'lib'}},
+        :ADDITIONAL_OBJECT_FILE_FLAGS => {:OSX => [], :UNIX => ['-fPIC']}
       },
     :ARCHIVER =>
       {
