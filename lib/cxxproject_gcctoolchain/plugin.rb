@@ -10,7 +10,7 @@ class UnixSharedLibs
   end
 end
 
-cxx_plugin do |cxx,bbs,log|
+cxx_plugin do
 
   require 'errorparser/gcc_compiler_error_parser'
   require 'errorparser/gcc_linker_error_parser'
