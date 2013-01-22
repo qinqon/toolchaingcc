@@ -50,7 +50,7 @@ class UnixSharedLibs < SharedLibsHelper
   
   # For :major=>1, minor=>2 fullname is '1.2.so'
   def get_version_suffix(linker, bb)
-    "#{major_suffix bb}#{(bb.major and bb.minor ? '.' : '')}#{(bb.minor ? bb.minor : '')}" 
+    "#{major_suffix bb}#{[bb.major, bb.minor].compact.join('.')}" 
   end
 
   def major_suffix(bb)
