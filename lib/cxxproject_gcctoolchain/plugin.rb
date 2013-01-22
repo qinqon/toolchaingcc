@@ -2,7 +2,6 @@
 class SharedLibsHelper
   def symlink_lib_to(link, bb)
    file = File.basename(bb.executable_name)
-   puts "f: #{file}, l: #{link}"
    if file != link 
      cd "#{bb.output_dir}/libs" do
        symlink(file, link)
