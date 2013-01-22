@@ -58,13 +58,14 @@ class UnixSharedLibs < SharedLibsHelper
   end
 
   # For :major=>1, minor=>2 soname is 'libfoo.1.so'
-  def get_major(linker)
-   prefix = get_output_prefix(linker)
-   return "#{prefix}#{name}#{major_suffix}#{shared_suffix linker}"
-  end
+  #def get_major(linker)
+  # prefix = get_output_prefix(linker)
+  # return "#{prefix}#{name}#{major_suffix}#{shared_suffix linker}"
+  #end
 
   def get_soname(linker, bb)
-    "#{bb.prefix}#{bb.name}#{bb.major_suffix}#{bb.shared_suffix linker}"
+   prefix = bb.get_output_prefix(linker)
+    "#{prefix}#{bb.name}#{major_suffix bb}#{bb.shared_suffix linker}"
   end
 
   def calc(linker, bb)
@@ -72,7 +73,7 @@ class UnixSharedLibs < SharedLibsHelper
   end
    
   # For :major=>1, minor=>2 fullname is 'libfoo.so'
-  def get_basic_name(linker)
+  def get_basic_name(linker, bb)
    prefix = bb.get_output_prefix(linker)
    return "#{prefix}#{bb.name}#{bb.shared_suffix(linker)}"
   end
