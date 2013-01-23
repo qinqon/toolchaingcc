@@ -105,7 +105,6 @@ cxx_plugin do
             :OBJECT_FILE_FLAG => "-o",
             :INCLUDE_PATH_FLAG => "-I",
             :COMPILE_FLAGS => "-c -Wall ",
-            :SHARED_FLAGS => '-fPIC',
             :DEP_FLAGS => "-MMD -MF ", # empty space at the end is important!
             :DEP_FLAGS_SPACE => true,
             :PREPRO_FLAGS => "-E -P",
@@ -137,7 +136,6 @@ cxx_plugin do
         :START_OF_WHOLE_ARCHIVE => {:UNIX => '-Wl,--whole-archive', :OSX => '-force_load', :WINDOWS => '-Wl,--whole-archive'},
         :END_OF_WHOLE_ARCHIVE => {:UNIX => '-Wl,--no-whole-archive', :OSX => '', :WINDOWS => '-Wl,--no-whole-archive'},
         :ADDITIONAL_COMMANDS => {:OSX => OsxSharedLibs.new, :UNIX => UnixSharedLibs.new},
-        :OUTPUT_PREFIX => {:EXE => '', :SHARED_LIBRARY => {:UNIX => 'lib', :OSX => 'lib'}},
         :ADDITIONAL_OBJECT_FILE_FLAGS => {:OSX => [], :UNIX => ['-fPIC']}
       },
     :ARCHIVER =>
