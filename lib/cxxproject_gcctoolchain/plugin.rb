@@ -3,7 +3,7 @@ cxx_plugin do
 
   require 'errorparser/gcc_compiler_error_parser'
   require 'errorparser/gcc_linker_error_parser'
-  require 'helpers/helpers'
+  require 'cxxproject/buildingblocks/shared_libs_helper'
   gccCompilerErrorParser = Cxxproject::GCCCompilerErrorParser.new
   prefix = ENV['USE_CCACHE'] ? 'ccache' : nil
   toolchain "gcc",
